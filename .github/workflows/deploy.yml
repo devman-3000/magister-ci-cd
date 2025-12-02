@@ -1,0 +1,31 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Deploy over SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ~/magister-ci-cd || git clone https://github.com/devman-3000/magister-ci-cd.git && cd magister-ci-cd
+
+            git pull
+
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
+
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+          EOF
