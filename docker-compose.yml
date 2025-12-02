@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: magister-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./database/app.db:/app/database/app.db
+    # Uncomment and set if needed, e.g.:
+    # environment:
+    #   DB_PATH: /app/database/app.db
+    #   JWT_SECRET: supersecret
+    #   PORT: 8080
+    environment: {}
+    networks:
+      - app-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: magister-frontend
+    restart: unless-stopped
+    ports:
+      - "8081:80" # host:container
+    depends_on:
+      - backend
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
