@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    image: ghcr.io/devman-3000/magister-backend:latest
+    container_name: magister-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./database/app.db:/app/database/app.db
+    networks:
+      - app-net
+
+  frontend:
+    image: ghcr.io/devman-3000/magister-frontend:latest
+    container_name: magister-frontend
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
