@@ -17,7 +17,7 @@ services:
     container_name: magister-frontend
     restart: unless-stopped
     ports:
-      - "8081:80"
+      - "80:80"
     depends_on:
       - backend
     networks:
