@@ -28,7 +28,11 @@ jobs:
 
             git pull
 
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            if ! docker compose version >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y docker-compose-plugin
+            fi
 
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+            docker compose -p magister-prod -f docker-compose.yml -f docker-compose.prod.yml pull
+            docker compose -p magister-prod -f docker-compose.yml -f docker-compose.prod.yml up -d
           EOF

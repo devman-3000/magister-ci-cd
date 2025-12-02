@@ -32,6 +32,6 @@ jobs:
               sudo apt-get install -y docker-compose-plugin
             fi
 
-            docker compose -f docker-compose.staging.yml pull
-            docker compose -f docker-compose.staging.yml up -d
+            docker compose -p magister-stage -f docker-compose.staging.yml pull
+            docker compose -p magister-stage -f docker-compose.staging.yml up -d
           EOF
