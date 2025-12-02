@@ -42,7 +42,7 @@ export default function App() {
 
   return (
     <div style={{ maxWidth: 900, margin: '40px auto', padding: 16 }}>
-      <h1>Проста аутентифікація (React + Go) Stage</h1>
+      <h1>Проста аутентифікація (React + Go) Production</h1>
       {loading ? (
         <p>Завантаження...</p>
       ) : me ? (
