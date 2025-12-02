@@ -2,7 +2,7 @@ name: Build and push Docker images
 
 on:
   push:
-    branches: ["main"]  # можна додати ще 'staging' потім
+    branches: ["master"]  # можна додати ще 'staging' потім
 
 jobs:
   build-and-push:
