@@ -71,11 +71,20 @@ func main() {
 
 	// CORS for dev; with Vite proxy we keep same-origin feel, but allow credentials just in case
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173"},
-		AllowMethods:     []string{"GET", "POST"},
-		AllowHeaders:     []string{"Content-Type"},
+		AllowOrigins: []string{
+			"http://localhost:5173",
+			"http://34.107.27.37:8081",
+			"https://app.magister-ci-cd.org",
+			"https://magister-ci-cd.org",
+		},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
+		AllowOriginFunc: func(origin string) bool {
+			return true // ← якщо хочеш дозволити все
+		},
+		MaxAge: 12 * time.Hour,
 	}))
 
 	api := r.Group("/api")
