@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    image: ghcr.io/devman-3000/magister-backend:stage
+    container_name: magister-backend-stage
+    restart: unless-stopped
+    ports:
+      - "8082:8080"  # host:container (avoid prod port clash)
+    volumes:
+      - ./database-staging:/app/database
+    networks:
+      - app-net-stage
+
+  frontend:
+    image: ghcr.io/devman-3000/magister-frontend:stage
+    container_name: magister-frontend-stage
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8083:80"   # change to 80:80 if using a dedicated host
+    networks:
+      - app-net-stage
+
+networks:
+  app-net-stage:
+    driver: bridge
