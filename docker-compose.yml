@@ -10,7 +10,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./database/app.db:/app/database/app.db
+      - ./database:/app/database
     # Uncomment and set if needed, e.g.:
     # environment:
     #   DB_PATH: /app/database/app.db

@@ -11,7 +11,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v5"
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -151,7 +151,13 @@ func handleRegister(c *gin.Context, db *sql.DB) {
 	}
 	_, err = db.Exec("INSERT INTO users(username, password_hash) VALUES(?, ?)", creds.Username, string(hash))
 	if err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "username already exists"})
+		var sqlErr sqlite3.Error
+		if errors.As(err, &sqlErr) && sqlErr.ExtendedCode == sqlite3.ErrConstraintUnique {
+			c.JSON(http.StatusConflict, gin.H{"error": "username already exists"})
+			return
+		}
+		log.Printf("register insert error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create user"})
 		return
 	}
 	c.Status(http.StatusCreated)
