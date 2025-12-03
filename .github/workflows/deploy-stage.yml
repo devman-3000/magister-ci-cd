@@ -33,6 +33,8 @@ jobs:
             fi
 
             docker compose -p magister-stage -f docker-compose.staging.yml pull
+            # Hard cleanup to avoid name conflicts from stray containers
+            docker rm -f magister-backend-stage magister-frontend-stage >/dev/null 2>&1 || true
             # Ensure old containers don't block fixed names
             docker compose -p magister-stage -f docker-compose.staging.yml down --remove-orphans
             docker compose -p magister-stage -f docker-compose.staging.yml up -d
