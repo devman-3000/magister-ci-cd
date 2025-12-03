@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1.7
 # Dockerfile.backend
 # ====== Builder stage ======
-# go.mod requires >= 1.23 and toolchain go1.24.x, so use a recent Go image
-FROM golang:1.23-alpine AS build
+# go.mod pins toolchain go1.24.x, so use the matching Go image to avoid toolchain downloads
+FROM golang:1.24-alpine AS build
 WORKDIR /app/backend
 ENV GOTOOLCHAIN=auto
 ENV GOMODCACHE=/go/pkg/mod

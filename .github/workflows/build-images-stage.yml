@@ -34,8 +34,8 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: ghcr.io/devman-3000/magister-backend:stage
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=ghcr.io/devman-3000/magister-backend:stage
+          cache-to: type=inline
 
       - name: Build and push frontend image (stage)
         uses: docker/build-push-action@v5
@@ -44,5 +44,5 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: ghcr.io/devman-3000/magister-frontend:stage
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=ghcr.io/devman-3000/magister-frontend:stage
+          cache-to: type=inline
