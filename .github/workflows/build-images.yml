@@ -29,6 +29,8 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: ghcr.io/devman-3000/magister-backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
@@ -37,3 +39,5 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: ghcr.io/devman-3000/magister-frontend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
