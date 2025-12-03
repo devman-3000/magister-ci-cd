@@ -38,7 +38,7 @@ jobs:
           cache-to: type=inline
 
       - name: Scan backend image with Trivy (prod)
-        uses: aquasecurity/trivy-action@v0.20.0
+        uses: aquasecurity/trivy-action@0.28.0
         continue-on-error: true
         with:
           image-ref: ghcr.io/devman-3000/magister-backend:latest
