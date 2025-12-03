@@ -8,6 +8,8 @@ export default function App() {
   const [me, setMe] = React.useState(null)
   const [error, setError] = React.useState('')
   const [loading, setLoading] = React.useState(true)
+  const envLabel = (import.meta.env.VITE_APP_ENV || import.meta.env.MODE || 'development').toLowerCase()
+  const headingEnv = envLabel === 'stage' ? 'Stage' : envLabel === 'production' ? 'Production' : 'Dev'
 
   const refreshMe = React.useCallback(() => {
     setLoading(true)
@@ -42,7 +44,7 @@ export default function App() {
 
   return (
     <div style={{ maxWidth: 900, margin: '40px auto', padding: 16 }}>
-      <h1>Проста аутентифікація (React + Go) Stage</h1>
+      <h1>Проста аутентифікація (React + Go) {headingEnv}</h1>
       {loading ? (
         <p>Завантаження...</p>
       ) : me ? (
